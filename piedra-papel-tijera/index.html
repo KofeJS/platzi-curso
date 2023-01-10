@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title>Piedra, Papel o Tijera</title>
+        <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    </head>
+    <body>
+        <header>1/Piedra, 2/Papel o 3/Tijera</header>
+
+        <div id="contador-victorias"></div>
+        <div id="mensaje-victoria"></div>
+
+        <form>
+            <input id="movimiento-jugador" style="width: 110px;" type="number" min="1" max="3" placeholder="Haz tu elección">
+            <button id="boton-subir" class="">⚔</button>
+            <button id="boton-reiniciar" class="hide">Volver a Jugar</button>
+        </form>
+
+        <div id="seleccion-jugador"></div>
+        <div id="seleccion-bot"></div>
+        <div id="resultado-combate"></div>
+
+        <script src="main.js"></script>
+    </body>
+</html>

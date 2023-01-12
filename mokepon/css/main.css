@@ -1,0 +1,124 @@
+@font-face {
+    font-family: PressStart2P;
+    src: url("/mokepon/font/PressStart2P-Regular.ttf") format("opentype");
+}
+
+html {
+    height: 100vh;
+}
+
+body {
+    font-family: 'PressStart2P', cursive;
+    background-color: rgb(153, 0, 0);
+}
+
+input {
+    display: none;
+}
+
+#seleccion-mascota {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+}
+
+#boton-elegir-mascota {
+    font-size: 16px;
+    font-family: 'PressStart2P', cursive;
+    color: rgb(255, 238, 99);
+    background-color: rgb(255, 91, 0);
+    width: 210px;
+    height: 30px;
+    border: 1px solid rgb(212, 217, 37);
+    padding: 3px;
+    margin: 16px;
+}
+
+#seleccion-ataque {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#mensajes {
+    color: rgb(255, 238, 99);
+    font-size: 8px;
+}
+
+#boton-reiniciar {
+    font-size: 16px;
+    font-family: 'PressStart2P', cursive;
+    color: rgb(255, 238, 99);
+    background-color: rgb(255, 91, 0);
+    width: 250px;
+    height: 30px;
+    border: 1px solid rgb(212, 217, 37);
+    padding: 3px;
+    margin: 10px;
+}
+
+.titulo {
+    font-size: 64px;
+    color: rgb(255, 238, 99);
+    margin: 16px;
+}
+
+.subtitulo {
+    font-size: 32px;
+    color: rgb(255, 238, 99);
+    margin: 16px;
+}
+
+.tarjetas {
+    display: flex;
+    gap: 10px;
+    margin: 16px;
+}
+
+.mokepon-tarjeta {
+    color: rgb(255, 238, 99);
+    background: #662232;
+    width: 180px;
+    height: 160px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    border: 1px solid rgb(212, 217, 37);
+    padding: 10px;
+    align-content: center;
+    margin: 5px;
+}
+
+.mokepon-tarjeta p {
+    display: none;
+}
+
+.vidas {
+    font-size: 16px;
+    color: rgb(255, 91, 0);
+}
+
+.vidas-numero {
+    font-size: 16px;
+    color: rgb(255, 238, 99);
+}
+
+.boton-ataque {
+    font-family: 'PressStart2P', cursive;
+    color: rgb(255, 238, 99);
+    background-color: rgb(255, 91, 0);
+    width: 100px;
+    height: 30px;
+    border: 1px solid rgb(212, 217, 37);
+    padding: 3px;
+    margin: 10px;
+}
+
+.resultado-ganador {
+    font-size: 16px;
+    color: rgb(255, 238, 99);
+}

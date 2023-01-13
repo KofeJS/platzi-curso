@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title>CHAOTIC</title>
+        <link rel='stylesheet' type='text/css' media='screen' href='css/main.css'>
+    </head>
+    <body>
+        <section id="seleccion-aspecto">
+            <h1 class="titulo">CHAOTIC</h1>    
+            <h2 class="subtitulo">Has tu contrato</h2>
+            
+            <div id="tarjetas">
+            </div>
+
+            <button id="boton-elegir-aspecto">Sellar</button>
+        </section>
+
+        <section id="seleccion-ataque">
+            <h1 class="titulo">CHAOTIC</h1>
+
+            <h2 class="subtitulo">Elige tu ataque:</h2>
+
+            <div id="seccion-boton-ataque">
+            </div>
+
+            <div id="mensajes">
+                <p id="resultado-combate">Un Portador te ataca</p>
+                
+                <section id="reiniciar">
+                    <button id="boton-reiniciar">Volver a jugar</button>
+                </section>
+            </div>
+
+            <div id="ataques">
+                <div class="ataques-bloques">
+                    <p class="vidas-numero" id="vidas-jugador">3</p>
+                    <p class="aspectos-combatiendo" id="aspecto-jugador"></p>
+                    <div id="ataques-jugador"></div>
+                </div>
+                <div class="ataques-bloques">
+                    <p class="vidas-numero" id="vidas-enemigo">3</p>
+                    <p class="aspectos-combatiendo" id="aspecto-enemigo"></p>
+                    <div id="ataques-enemigo"></div>
+                </div>
+            </div>
+        </section>
+        <script src='js/main.js'></script>
+    </body>
+</html>

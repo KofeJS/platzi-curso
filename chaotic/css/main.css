@@ -1,0 +1,218 @@
+@font-face {
+    font-family: PressStart2P;
+    src: url("/chaotic/font/PressStart2P-Regular.ttf") format("opentype");
+}
+
+html {
+    height: 100vh;
+}
+
+body {
+    font-family: 'PressStart2P', cursive;
+    background-color: rgb(153, 0, 0);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+}
+
+#seleccion-aspecto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-content: center;
+}
+
+#tarjetas {
+    display: flex;
+    gap: 32px;
+    margin: 16px;
+}
+
+#tarjetas input {
+    display: none;
+}
+
+#tarjetas input:checked + label {
+    background-color: #3C2A21;
+}
+
+#boton-elegir-aspecto {
+    font-size: 16px;
+    font-family: 'PressStart2P', cursive;
+    color: rgb(255, 238, 99);
+    background-color: rgb(255, 91, 0);
+    width: 180px;
+    height: 30px;
+    border: 2px solid rgb(212, 217, 37);
+    border-radius: 15px;
+    padding: 3px;
+    margin: 24px;
+}
+
+#boton-elegir-aspecto:active {
+    background-color: rgb(212, 217, 37);
+}
+
+#seleccion-ataque {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#mensajes {
+    font-size: 16px;
+    color: rgb(255, 238, 99);
+    background-color: rgb(255, 91, 0);
+    width: 680px;
+    padding: 8px;
+    margin: 16px 0px 16px 0px;
+    border: 2px solid rgb(212, 217, 37);
+    border-radius: 32px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+#boton-reiniciar {
+    font-size: 16px;
+    font-family: 'PressStart2P', cursive;
+    color: rgb(255, 91, 0);
+    background-color: rgb(255, 238, 99);
+    width: 250px;
+    height: 30px;
+    border: transparent;
+    border-radius: 15px;
+    padding: 3px;
+    margin: 16px 0px 16px 0px;
+}
+
+#ataques {
+    display: grid;
+    grid-template-columns: 160px 160px;
+    gap: 64px;
+}
+
+#ataques-jugador, #ataques-enemigo {
+    overflow: scroll;
+    overflow: hidden;
+    width: 160px;
+    height: 160px;
+}
+
+.titulo {
+    font-size: 48px;
+    color: rgb(255, 238, 99);
+    margin: 32px 0px 32px 0px;
+}
+
+.subtitulo {
+    font-size: 24px;
+    color: rgb(255, 238, 99);
+    margin: 24px;
+}
+
+.aspecto-tarjeta {
+    color: rgb(255, 238, 99);
+    background: #a7702e;
+    width: 180px;
+    height: 160px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    border: 2px solid rgb(212, 217, 37);
+    padding: 10px;
+    margin: 5px;
+}
+
+.aspecto-tarjeta:hover {
+    cursor: pointer;
+}
+
+.aspecto-tarjeta p {
+    display: none;
+}
+
+.vidas {
+    font-size: 16px;
+    color: rgb(255, 91, 0);
+}
+
+.aspectos-combatiendo {
+    color: rgb(255, 238, 99);
+}
+
+.vidas-numero {
+    color: rgb(255, 238, 99);
+}
+
+.boton-ataque {
+    font-family: 'PressStart2P', cursive;
+    color: rgb(255, 238, 99);
+    background-color: rgb(255, 91, 0);
+    width: 100px;
+    height: 30px;
+    border: 2px solid rgb(212, 217, 37);
+    border-radius: 15px;
+    padding: 3px;
+    margin: 8px;
+}
+
+.boton-ataque:active {
+    background-color: rgb(212, 217, 37);
+}
+
+.resultado-ganador {
+    font-size: 16px;
+    color: rgb(255, 238, 99);
+}
+
+.mensaje-ataque {
+    font-size: 8px;
+    color: rgb(255, 91, 0);
+}
+
+.ataques-bloques {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+@media (max-width: 400px) {
+    #tarjetas {
+        flex-direction: column;
+    }
+    
+    .titulo {
+        font-size: 32px;
+        margin: 16px;
+    }
+
+    .subtitulo {
+        font-size: 16px;
+        margin: 16px;
+    }
+
+    #seccion-boton-ataque {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .boton-ataque {
+        width: 160px;
+        height: 40px;
+    }
+
+    #mensajes {
+        width: 288px;
+    }
+
+    #resultado-combate {
+        text-align: center;
+    }
+
+    #ataques {
+        gap: 8px;
+    }
+}

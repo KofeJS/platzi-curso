@@ -25,6 +25,8 @@ body {
 
 #tarjetas {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 32px;
     margin: 16px;
 }
@@ -60,6 +62,12 @@ body {
     align-items: center;
 }
 
+#seccion-boton-ataque {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
 #mensajes {
     font-size: 16px;
     color: rgb(255, 238, 99);
@@ -72,6 +80,10 @@ body {
     display: flex;
     align-items: center;
     flex-direction: column;
+}
+
+#resultado-combate {
+    text-align: center;
 }
 
 #boton-reiniciar {
@@ -101,6 +113,7 @@ body {
 }
 
 .titulo {
+    text-align: center;
     font-size: 48px;
     color: rgb(255, 238, 99);
     margin: 32px 0px 32px 0px;
@@ -134,16 +147,11 @@ body {
     display: none;
 }
 
-.vidas {
-    font-size: 16px;
-    color: rgb(255, 91, 0);
-}
-
 .aspectos-combatiendo {
     color: rgb(255, 238, 99);
 }
 
-.vidas-numero {
+.victorias-numero {
     color: rgb(255, 238, 99);
 }
 
@@ -179,11 +187,33 @@ body {
     align-items: center;
 }
 
+#ver-mapa {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#mapa {
+    border: 2px solid rgb(212, 217, 37);
+}
+
 @media (max-width: 400px) {
     #tarjetas {
-        flex-direction: column;
+        overflow: hidden scroll;
+        height: 480px;
+        gap: 0px;
     }
     
+    .aspecto-tarjeta {
+        width: 164px;
+        height: 148px;
+        margin: 0px;
+    }
+
+    #boton-elegir-aspecto {
+        margin: 8px;        
+    }
+
     .titulo {
         font-size: 32px;
         margin: 16px;
@@ -195,7 +225,6 @@ body {
     }
 
     #seccion-boton-ataque {
-        display: flex;
         flex-direction: column;
     }
 
@@ -206,10 +235,6 @@ body {
 
     #mensajes {
         width: 288px;
-    }
-
-    #resultado-combate {
-        text-align: center;
     }
 
     #ataques {

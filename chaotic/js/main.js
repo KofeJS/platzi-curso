@@ -25,7 +25,7 @@ let ataqueJugadorTurno;
 let ataquesEnemigo = [];
 let ataqueEnemigoTurno;
 let secuenciaAtaquesEnemigo = [];
-let aspectoJugador = ``;
+let aspectoJugador;
 let aspectoEnemigo = ``;
 let opcionDeAspectosTemplate;
 let botonAtaqueTemplate;
@@ -34,41 +34,53 @@ let victoriasJugadorRonda = 0;
 let victoriasEnemigo = 0;
 let victoriasEnemigoRonda = 0;
 
-let lienzo = $mapa.getContext("2d");
 let intervalo;
+let lienzo = $mapa.getContext("2d");
 let mapaBackground = new Image();
 mapaBackground.src = "./assets/background-specialForest.png";
 
+let alturaDeseada;
+let anchoDelMapa = window.innerWidth - 32;
+const alturaMapaMaxima = 480
+if (anchoDelMapa > alturaMapaMaxima) {
+    anchoDelMapa = alturaMapaMaxima - 32;
+}
+alturaDeseada = anchoDelMapa * 3 / 4;
+$mapa.width = anchoDelMapa;
+$mapa.height = alturaDeseada;
+
 class Aspecto {
-    constructor (nombre, foto, vidas, fotoMapa, x = 10, y = 10) {
+    constructor (nombre, foto, vidas, fotoMapa) {
         this.nombre = nombre;
         this.foto = foto;
         this.vidas = vidas;
         this.ataques = [];
-        this.x = x;
-        this.y = y;
         this.ancho = 64;
         this.alto = 64;
+        this.x = getRandomNumber(0, $mapa.width - this.ancho);
+        this.y = getRandomNumber(0, $mapa.height - this.alto);
         this.mapaFoto = new Image();
         this.mapaFoto.src = fotoMapa;
         this.velocidadX = 0;
         this.velocidadY = 0;
     }
 
-    pintarAspecto(x, y) {
-        lienzo.drawImage(
-            this.mapaFoto,
-            this.x = x,
-            this.y = y,
-            this.ancho,
-            this.alto
-        );
-    }
+    pintarAspecto() {
+    lienzo.drawImage(
+        this.mapaFoto,
+        this.x,
+        this.y,
+        this.ancho,
+        this.alto
+    )};
 }
 
-let fulgus = new Aspecto (`Fulgus`, `./assets/sprites-splash-fulgus.png`, 5, `./assets/sprites-mapa-fulgus.png`);
-let goldeon = new Aspecto (`Goldeon`, `./assets/sprites-splash-goldeon.png`, 5, `./assets/sprites-mapa-goldeon.png`);
-let plantus = new Aspecto (`Plantus`, `./assets/sprites-splash-plantus.png`, 5, `./assets/sprites-mapa-plantus.png`);
+const fulgus = new Aspecto (`Fulgus`, `./assets/sprites-splash-fulgus.png`, 5, `./assets/sprites-mapa-fulgus.png`);
+const goldeon = new Aspecto (`Goldeon`, `./assets/sprites-splash-goldeon.png`, 5, `./assets/sprites-mapa-goldeon.png`);
+const plantus = new Aspecto (`Plantus`, `./assets/sprites-splash-plantus.png`, 5, `./assets/sprites-mapa-plantus.png`);
+const fulgusEnemigo = new Aspecto (`Fulgus`, `./assets/sprites-splash-fulgus.png`, 5, `./assets/sprites-mapa-fulgus.png`);
+const goldeonEnemigo = new Aspecto (`Goldeon`, `./assets/sprites-splash-goldeon.png`, 5, `./assets/sprites-mapa-goldeon.png`);
+const plantusEnemigo = new Aspecto (`Plantus`, `./assets/sprites-splash-plantus.png`, 5, `./assets/sprites-mapa-plantus.png`);
 
 fulgus.ataques.push(
     { nombre: `FUEGO`, id: `boton-fuego` },
@@ -77,7 +89,6 @@ fulgus.ataques.push(
     { nombre: `AGUA`, id: `boton-agua` },
     { nombre: `TIERRA`, id: `boton-tierra` },
 );
-
 goldeon.ataques.push(
     { nombre: `AGUA`, id: `boton-agua` },
     { nombre: `AGUA`, id: `boton-agua` },
@@ -85,8 +96,29 @@ goldeon.ataques.push(
     { nombre: `FUEGO`, id: `boton-fuego` },
     { nombre: `TIERRA`, id: `boton-tierra` },
 );
-
 plantus.ataques.push(
+    { nombre: `TIERRA`, id: `boton-tierra` },
+    { nombre: `TIERRA`, id: `boton-tierra` },
+    { nombre: `TIERRA`, id: `boton-tierra` },
+    { nombre: `FUEGO`, id: `boton-fuego` },
+    { nombre: `AGUA`, id: `boton-agua` },
+);
+
+fulgusEnemigo.ataques.push(
+    { nombre: `FUEGO`, id: `boton-fuego` },
+    { nombre: `FUEGO`, id: `boton-fuego` },
+    { nombre: `FUEGO`, id: `boton-fuego` },
+    { nombre: `AGUA`, id: `boton-agua` },
+    { nombre: `TIERRA`, id: `boton-tierra` },
+);
+goldeonEnemigo.ataques.push(
+    { nombre: `AGUA`, id: `boton-agua` },
+    { nombre: `AGUA`, id: `boton-agua` },
+    { nombre: `AGUA`, id: `boton-agua` },
+    { nombre: `FUEGO`, id: `boton-fuego` },
+    { nombre: `TIERRA`, id: `boton-tierra` },
+);
+plantusEnemigo.ataques.push(
     { nombre: `TIERRA`, id: `boton-tierra` },
     { nombre: `TIERRA`, id: `boton-tierra` },
     { nombre: `TIERRA`, id: `boton-tierra` },
@@ -120,8 +152,7 @@ function iniciarJuego() {
 function seleccionarAspecto() {
     for (let i = 0; i < listaDeAspectos.length; i++) {
         if (listaDeAspectos[i].checked) {
-            //slice devuelve un array, no un objeto
-            aspectoJugador = aspectos.slice(i, 1);
+            aspectoJugador = aspectos[i];
             $seccionElegirAspecto.style.display = "none";
 
             $seccionVerMapa.style.display = "flex";
@@ -149,6 +180,7 @@ function ataqueAleatorioEnemigo() {
     ataquesEnemigo.splice(ataqueAleatorio, 1);
 
     secuenciaAtaquesEnemigo.push(ataqueEnemigoTurno);
+    console.log(secuenciaAtaquesEnemigo)
     iniciarCombate();
 }
 function secuenciaAtaquesJugador(ataque) {
@@ -156,6 +188,7 @@ function secuenciaAtaquesJugador(ataque) {
         ataqueJugadorTurno = ataque.target.textContent;
         ataquesJugador.push(ataqueJugadorTurno);
 
+        console.log(ataquesJugador)
         ataqueAleatorioEnemigo();
     } else {
         alert(`Elige tu Mascota`);
@@ -323,14 +356,14 @@ function pintarCanvas() {
         $mapa.width,
         $mapa.height
     )
-    fulgus.pintarAspecto(200, 400);
-    goldeon.pintarAspecto(350, 100);
-    plantus.pintarAspecto(600, 350);
+    fulgusEnemigo.pintarAspecto();
+    goldeonEnemigo.pintarAspecto();
+    plantusEnemigo.pintarAspecto();
     aspectoJugador.pintarAspecto();
     if (aspectoJugador.velocidadX !== 0 || aspectoJugador.velocidadY !== 0) {
-        comprobarColision(fulgus);
-        comprobarColision(goldeon);
-        comprobarColision(plantus);
+        comprobarColision(fulgusEnemigo);
+        comprobarColision(goldeonEnemigo);
+        comprobarColision(plantusEnemigo);
     }
 }
 
@@ -353,7 +386,9 @@ function comprobarColision(enemigo) {
     ) {
         return;
     }
-    detenerMovimiento()
+    console.log("Chocaste");
+    detenerMovimiento();
+    clearInterval(intervalo);
     $seccionVerMapa.style.display = "none";
     $seccionCombate.style.display = "";
     $pAspectoJugador.innerHTML = aspectoJugador.nombre;
@@ -397,10 +432,7 @@ function tocasteUnaTecla(e) {
     }
 }
 
-function iniciarMapa() {
-    $mapa.width = 700;
-    $mapa.height = 500;
-
+function iniciarMapa() {    
     intervalo = setInterval(pintarCanvas, 50);
     window.addEventListener("keydown", tocasteUnaTecla);
     window.addEventListener("keyup", detenerMovimiento);

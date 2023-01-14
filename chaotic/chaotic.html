@@ -4,14 +4,14 @@
         <meta charset='utf-8'>
         <title>CHAOTIC</title>
         <link rel='stylesheet' type='text/css' media='screen' href='css/main.css'>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
         <section id="seleccion-aspecto">
             <h1 class="titulo">CHAOTIC</h1>    
             <h2 class="subtitulo">Has tu contrato</h2>
             
-            <div id="tarjetas">
-            </div>
+            <div id="tarjetas"></div>
 
             <button id="boton-elegir-aspecto">Sellar</button>
         </section>
@@ -19,6 +19,12 @@
         <section id="ver-mapa">
             <h1 class="titulo">Explora el mundo</h1>    
             <canvas id="mapa"></canvas>
+            <div class="boton-movimiento">
+                <button id="up" onmouseout="detenerMovimiento()" onmouseup="detenerMovimiento()" onmousedown="moverUp()">W</button>
+                <button id="left" onmouseout="detenerMovimiento()" onmouseup="detenerMovimiento()" onmousedown="moverLeft()">A</button>
+                <button id="right" onmouseout="detenerMovimiento()" onmouseup="detenerMovimiento()" onmousedown="moverRight()">D</button>
+                <button id="down" onmouseout="detenerMovimiento()" onmouseup="detenerMovimiento()" onmousedown="moverDown()">S</button>
+            </div>            
         </section>
 
         <section id="seleccion-ataque">

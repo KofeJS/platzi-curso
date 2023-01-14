@@ -193,15 +193,61 @@ body {
     justify-content: center;
 }
 
+#ver-mapa .titulo {
+    font-size: 24px;
+}
+
 #mapa {
     border: 2px solid rgb(212, 217, 37);
 }
 
+.boton-movimiento {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    margin: 16px;
+}
+.boton-movimiento button {
+    font-size: 16px;
+    font-family: 'PressStart2P', cursive;
+    color: rgb(255, 238, 99);
+    background-color: rgb(255, 91, 0);
+    width: 48px;
+    height: 48px;
+    border: 2px solid rgb(212, 217, 37);
+    padding: 3px;
+    margin: 8px;
+}
+
+#up {
+    grid-column: 2 / 3;
+}
+
+#left {
+    grid-column: 1 / 2;
+    grid-row: 2 / 3;
+}
+
+#right {
+    grid-column: 3 /4;
+    grid-row: 2 / 3;
+}
+
+#down {
+    grid-column: 2 / 3;
+    grid-row: 3 / 4;
+}
+
+
 @media (max-width: 400px) {
     #tarjetas {
-        overflow: hidden scroll;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        justify-content: flex-start;
+        overflow: hidden auto;
         height: 480px;
-        gap: 0px;
+        gap: 8px;
     }
     
     .aspecto-tarjeta {
@@ -216,12 +262,21 @@ body {
 
     .titulo {
         font-size: 32px;
-        margin: 16px;
+        margin: 8px;
     }
 
     .subtitulo {
         font-size: 16px;
-        margin: 16px;
+        margin: 8px;
+    }
+
+    .boton-movimiento {
+        margin: 32px;
+    }
+
+    .boton-movimiento button {
+        width: 64px;
+        height: 64px;
     }
 
     #seccion-boton-ataque {

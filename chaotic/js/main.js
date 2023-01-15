@@ -147,6 +147,20 @@ function iniciarJuego() {
 
     $botonAspectoJugador.addEventListener("click", seleccionarAspecto);
     $botonReiniciar.addEventListener("click", reiniciarJuego);
+
+    unirseAlJuego();
+}
+
+function unirseAlJuego() {
+    fetch("http://localhost:8080/unirse")
+        .then(function(res) {
+            if (res.ok) {
+                res.text()
+                    .then(function(respuesta) {
+                        console.log(respuesta);
+                })
+            }
+    });
 }
 
 function seleccionarAspecto() {

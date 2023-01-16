@@ -20,17 +20,20 @@ let listaDeAspectos;
 let botonAtaques;
 
 let aspectos = [];
+let opcionDeAspectosTemplate;
+let botonAtaqueTemplate;
+
+let jugadorId = null;
 let ataquesJugador = [];
 let ataqueJugadorTurno;
+let aspectoJugador;
+let victoriasJugador = 0;
+let victoriasJugadorRonda = 0;
+
 let ataquesEnemigo = [];
 let ataqueEnemigoTurno;
 let secuenciaAtaquesEnemigo = [];
-let aspectoJugador;
-let aspectoEnemigo = ``;
-let opcionDeAspectosTemplate;
-let botonAtaqueTemplate;
-let victoriasJugador = 0;
-let victoriasJugadorRonda = 0;
+let aspectoEnemigo;
 let victoriasEnemigo = 0;
 let victoriasEnemigoRonda = 0;
 
@@ -50,7 +53,8 @@ $mapa.width = anchoDelMapa;
 $mapa.height = alturaDeseada;
 
 class Aspecto {
-    constructor (nombre, foto, vidas, fotoMapa) {
+    constructor (nombre, foto, vidas, fotoMapa, id = null) {
+        this.id = id;
         this.nombre = nombre;
         this.foto = foto;
         this.vidas = vidas;
@@ -78,53 +82,33 @@ class Aspecto {
 const fulgus = new Aspecto (`Fulgus`, `./assets/sprites-splash-fulgus.png`, 5, `./assets/sprites-mapa-fulgus.png`);
 const goldeon = new Aspecto (`Goldeon`, `./assets/sprites-splash-goldeon.png`, 5, `./assets/sprites-mapa-goldeon.png`);
 const plantus = new Aspecto (`Plantus`, `./assets/sprites-splash-plantus.png`, 5, `./assets/sprites-mapa-plantus.png`);
-const fulgusEnemigo = new Aspecto (`Fulgus`, `./assets/sprites-splash-fulgus.png`, 5, `./assets/sprites-mapa-fulgus.png`);
-const goldeonEnemigo = new Aspecto (`Goldeon`, `./assets/sprites-splash-goldeon.png`, 5, `./assets/sprites-mapa-goldeon.png`);
-const plantusEnemigo = new Aspecto (`Plantus`, `./assets/sprites-splash-plantus.png`, 5, `./assets/sprites-mapa-plantus.png`);
 
-fulgus.ataques.push(
+const ATAQUES_FULGUS = [
     { nombre: `FUEGO`, id: `boton-fuego` },
     { nombre: `FUEGO`, id: `boton-fuego` },
     { nombre: `FUEGO`, id: `boton-fuego` },
     { nombre: `AGUA`, id: `boton-agua` },
     { nombre: `TIERRA`, id: `boton-tierra` },
-);
-goldeon.ataques.push(
-    { nombre: `AGUA`, id: `boton-agua` },
-    { nombre: `AGUA`, id: `boton-agua` },
-    { nombre: `AGUA`, id: `boton-agua` },
-    { nombre: `FUEGO`, id: `boton-fuego` },
-    { nombre: `TIERRA`, id: `boton-tierra` },
-);
-plantus.ataques.push(
-    { nombre: `TIERRA`, id: `boton-tierra` },
-    { nombre: `TIERRA`, id: `boton-tierra` },
-    { nombre: `TIERRA`, id: `boton-tierra` },
-    { nombre: `FUEGO`, id: `boton-fuego` },
-    { nombre: `AGUA`, id: `boton-agua` },
-);
+];
+fulgus.ataques.push(...ATAQUES_FULGUS);
 
-fulgusEnemigo.ataques.push(
-    { nombre: `FUEGO`, id: `boton-fuego` },
-    { nombre: `FUEGO`, id: `boton-fuego` },
-    { nombre: `FUEGO`, id: `boton-fuego` },
-    { nombre: `AGUA`, id: `boton-agua` },
-    { nombre: `TIERRA`, id: `boton-tierra` },
-);
-goldeonEnemigo.ataques.push(
+const ATAQUES_GOLDEON = [
     { nombre: `AGUA`, id: `boton-agua` },
     { nombre: `AGUA`, id: `boton-agua` },
     { nombre: `AGUA`, id: `boton-agua` },
     { nombre: `FUEGO`, id: `boton-fuego` },
     { nombre: `TIERRA`, id: `boton-tierra` },
-);
-plantusEnemigo.ataques.push(
+];
+goldeon.ataques.push(...ATAQUES_GOLDEON);
+
+const ATAQUES_PLANTUS = [
     { nombre: `TIERRA`, id: `boton-tierra` },
     { nombre: `TIERRA`, id: `boton-tierra` },
     { nombre: `TIERRA`, id: `boton-tierra` },
     { nombre: `FUEGO`, id: `boton-fuego` },
     { nombre: `AGUA`, id: `boton-agua` },
-);
+];
+plantus.ataques.push(...ATAQUES_PLANTUS);
 
 aspectos.push(fulgus, goldeon, plantus);
 
@@ -145,7 +129,7 @@ function iniciarJuego() {
     })
     listaDeAspectos = document.querySelectorAll("input[name=aspecto]");
 
-    $botonAspectoJugador.addEventListener("click", seleccionarAspecto);
+    $botonAspectoJugador.addEventListener("click", seleccionarAspectoJugador);
     $botonReiniciar.addEventListener("click", reiniciarJuego);
 
     unirseAlJuego();
@@ -158,34 +142,40 @@ function unirseAlJuego() {
                 res.text()
                     .then(function(respuesta) {
                         console.log(respuesta);
-                })
+                        jugadorId = respuesta;
+                });
             }
-    });
+        });
 }
 
-function seleccionarAspecto() {
+function seleccionarAspectoJugador() {
     for (let i = 0; i < listaDeAspectos.length; i++) {
         if (listaDeAspectos[i].checked) {
             aspectoJugador = aspectos[i];
             $seccionElegirAspecto.style.display = "none";
 
+            seleccionarAspecto(aspectoJugador.nombre)
             $seccionVerMapa.style.display = "flex";
             return iniciarMapa();
-
-            // $seccionCombate.style.display = "";
-            // $pAspectoJugador.innerHTML = aspectoJugador.nombre;
-            // seleccionarAspectoEnemigo();
-            // crearBotonesAtaque(aspectoJugador.ataques);
         }
     }
     return alert(`Elige tu Mascota`);
 }
-function seleccionarAspectoEnemigo (enemigo) {
-    // let enemigoAleatorio = getRandomNumber(0, ((aspectos.length) - 1));
-
-    aspectoEnemigo = enemigo;
+function seleccionarAspectoEnemigo () {
     ataquesEnemigo = ataquesEnemigo.concat(aspectoEnemigo.ataques);
     $pAspectoEnemigo.innerHTML = aspectoEnemigo.nombre;
+}
+
+function seleccionarAspecto(aspectoJugador) {
+    fetch(`http://localhost:8080/chaotic/${jugadorId}`, {
+        method: "post",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            aspecto: aspectoJugador
+        })
+    });
 }
 
 function ataqueAleatorioEnemigo() {
@@ -370,15 +360,48 @@ function pintarCanvas() {
         $mapa.width,
         $mapa.height
     )
-    fulgusEnemigo.pintarAspecto();
-    goldeonEnemigo.pintarAspecto();
-    plantusEnemigo.pintarAspecto();
     aspectoJugador.pintarAspecto();
+    enviarPosicion(aspectoJugador.x, aspectoJugador.y);
     if (aspectoJugador.velocidadX !== 0 || aspectoJugador.velocidadY !== 0) {
-        comprobarColision(fulgusEnemigo);
-        comprobarColision(goldeonEnemigo);
-        comprobarColision(plantusEnemigo);
+        comprobarColision(aspectoEnemigo);
     }
+}
+
+function enviarPosicion(x, y) {
+    fetch(`http://localhost:8080/chaotic/${jugadorId}/posicion`, {
+        method: "post",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            x,
+            y
+        })
+    })
+        .then(function (res) {
+            if(res.ok) {
+                res.json()
+                    .then(function ({ enemigos }) {
+                        console.log(enemigos);
+                        enemigos.forEach(function (enemigo) {
+                            const aspectoNombre = enemigo.aspecto.nombre || "";
+                            if (aspectoNombre === `Fulgus`) {
+                                aspectoEnemigo = new Aspecto (`Fulgus`, `./assets/sprites-splash-fulgus.png`, 5, `./assets/sprites-mapa-fulgus.png`);
+                                aspectoEnemigo.ataques.push(...ATAQUES_FULGUS);                                
+                            } else if (aspectoNombre === `Goldeon`) {
+                                aspectoEnemigo = new Aspecto (`Goldeon`, `./assets/sprites-splash-goldeon.png`, 5, `./assets/sprites-mapa-goldeon.png`);
+                                aspectoEnemigo.ataques.push(...ATAQUES_GOLDEON);
+                            } else if (aspectoNombre === `Plantus`) {
+                                aspectoEnemigo = new Aspecto (`Plantus`, `./assets/sprites-splash-plantus.png`, 5, `./assets/sprites-mapa-plantus.png`);
+                                aspectoEnemigo.ataques.push(...ATAQUES_PLANTUS);
+                            }
+                            aspectoEnemigo.x = enemigo.x;
+                            aspectoEnemigo.y = enemigo.y;
+                            aspectoEnemigo.pintarAspecto();
+                        });
+                    });
+            }
+        });
 }
 
 function comprobarColision(enemigo) {
@@ -403,10 +426,12 @@ function comprobarColision(enemigo) {
     console.log("Chocaste");
     detenerMovimiento();
     clearInterval(intervalo);
+
     $seccionVerMapa.style.display = "none";
     $seccionCombate.style.display = "";
     $pAspectoJugador.innerHTML = aspectoJugador.nombre;
-    seleccionarAspectoEnemigo(enemigo);
+
+    seleccionarAspectoEnemigo();
     crearBotonesAtaque(aspectoJugador.ataques);
 }
 
